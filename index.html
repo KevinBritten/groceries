@@ -13,25 +13,37 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="">
+    <style>
+        th,
+        td {
+            border: 1px solid black;
+            padding: 10px
+        }
+    </style>
 </head>
 
 <body>
 
-    <table>
+    <table style="border-collapse: collapse">
         <thead>
             <tr>
                 <th> Item </th>
                 <th> Price </th>
+                <th> Quantity </th>
                 <th> Kevan</th>
                 <th> David</th>
                 <th>Eric</th>
                 <th>Evan</th>
                 <th>Duncan</th>
+                <th>Communal</th>
             </tr>
         </thead>
         <tbody id="forum"></tbody>
     </table>
     <button id="stonks">stonks</button>
+    <p id="totals"></p>
+    <input type="text" placeholder="foods here" id="listMaker" style="width:100vh; height:500px">
+    <button id="listButton">make list</button>
 
     <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
