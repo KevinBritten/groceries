@@ -3,25 +3,75 @@ document.getElementById('stonks').addEventListener('click', () => stonks());
 document
     .getElementById('listButton')
     .addEventListener('click', () => makeList(document.getElementById('listMaker').value));
-
 let makeList = function(str) {
     forum.innerHTML = '';
+    let currMode = document.getElementById('mode').value;
     let remainingItems = str;
-    let numberOfItems = str.match(/[$]/g).length / 2;
     let items = [];
     let sortedItems = [];
-    for (let i = 0; i < numberOfItems; i++) {
-        let secondDollar = remainingItems.indexOf('$', remainingItems.indexOf('$') + 1) + 6;
-        items.push(remainingItems.slice(0, secondDollar));
-        remainingItems = remainingItems.slice(secondDollar);
-    }
-    for (let item of items) {
-        let currentObject = {
-            name: item.slice(0, item.indexOf('Qty:')),
-            price: item.slice(item.indexOf('$', item.indexOf('$') + 1)),
-            qty: item.slice(item.indexOf('Qty:') + 4, item.indexOf('@'))
-        };
-        sortedItems.push(currentObject);
+    if (currMode === 'maxi') {
+        let numberOfItems = str.match(/[$]/g).length / 2;
+
+        for (let i = 0; i < numberOfItems; i++) {
+            let secondDollar = remainingItems.indexOf('$', remainingItems.indexOf('$') + 1) + 6;
+            items.push(remainingItems.slice(0, secondDollar));
+            remainingItems = remainingItems.slice(secondDollar);
+        }
+        for (let item of items) {
+            let qty = '';
+            if (item.slice(item.indexOf('Qty:') + 4, item.indexOf('@')).length < 12) {
+                qty = item.slice(item.indexOf('Qty:') + 4, item.indexOf('@'));
+            } else {
+                qty = 'some';
+            }
+            let currentObject = {
+                name: item.slice(0, item.indexOf('Qty:')),
+                price: item.slice(item.indexOf('$', item.indexOf('$') + 1)),
+                qty: qty
+            };
+            sortedItems.push(currentObject);
+        }
+        // sortedItems.forEach((item) => {
+        //     let row = document.createElement('tr');
+        //     document.getElementById('forum').appendChild(row);
+        //     let edit = forum.lastElementChild;
+        //     let currentPrice = parseFloat(item['price'].slice(1));
+        //     edit.innerHTML = `<td class="name">${item['name']}</td>
+        //     <td class="price" price="${currentPrice}">${item['price']}</td>
+        //     <td class="qty" style="text-align:center">${item['qty']}</td>
+        //     <td class="check"><input type="checkbox" class="kevan"></td>
+        //     <td class="check"><input type="checkbox" class="david"></td>
+        //     <td class="check"><input type="checkbox" class="eric"></td>
+        //     <td class="check"><input type="checkbox" class="evan"></td>
+        //     <td class="check"><input type="checkbox" class="duncan"></td>
+        //     <td class="check"><input type="checkbox" class="all"></td>
+        //     `;
+        // });
+    } else if (currMode === 'prices') {
+        let priceStr = str + '$';
+        remainingItems = priceStr;
+        let numberOfItems = priceStr.match(/[$]/g).length - 1;
+        for (let i = 0; i < numberOfItems; i++) {
+            items.push(
+                remainingItems.slice(
+                    remainingItems.indexOf('$'),
+                    remainingItems.indexOf('$', remainingItems.indexOf('$') + 1)
+                )
+            );
+            remainingItems = remainingItems.slice(remainingItems.indexOf('$', remainingItems.indexOf('$') + 1));
+            console.log(remainingItems);
+        }
+        for (let item of items) {
+            let currentObject = {
+                name: 'foond',
+                price: item,
+                qty: 'some amount'
+            };
+
+            // if (currentObject['price'] !== '') {
+            sortedItems.push(currentObject);
+            // }
+        }
     }
     sortedItems.forEach((item) => {
         let row = document.createElement('tr');
@@ -29,18 +79,17 @@ let makeList = function(str) {
         let edit = forum.lastElementChild;
         let currentPrice = parseFloat(item['price'].slice(1));
         edit.innerHTML = `<td class="name">${item['name']}</td>
-        <td class="price" price="${currentPrice}">${item['price']}</td>
-        <td class="qty" style="text-align:center">${item['qty']}</td>
-        <td class="check"><input type="checkbox" class="kevan"></td>
-        <td class="check"><input type="checkbox" class="david"></td>
-        <td class="check"><input type="checkbox" class="eric"></td>
-        <td class="check"><input type="checkbox" class="evan"></td>
-        <td class="check"><input type="checkbox" class="duncan"></td>
-        <td class="check"><input type="checkbox" class="all"></td>
-        `;
+    <td class="price" price="${currentPrice}">${item['price']}</td>
+    <td class="qty" style="text-align:center">${item['qty']}</td>
+    <td class="check"><input type="checkbox" class="kevan"></td>
+    <td class="check"><input type="checkbox" class="david"></td>
+    <td class="check"><input type="checkbox" class="eric"></td>
+    <td class="check"><input type="checkbox" class="evan"></td>
+    <td class="check"><input type="checkbox" class="duncan"></td>
+    <td class="check"><input type="checkbox" class="all"></td>
+    `;
     });
 };
-
 let stonks = function() {
     // let kevanTot = 0;
     // let davidTot = 0;
@@ -74,10 +123,8 @@ let stonks = function() {
         }
         splitPrice = Math.round(itemPrice / buyInPeople.length * 100) / 100;
         buyInPeople.forEach((name) => {
-            console.log(splitPrice);
             totals[name] = splitPrice + totals[name];
             // totals[name] = Math.round(splitPrice * 100) / 100 + totals[name];
-            console.log(totals);
         });
     }
     document.getElementById('totals').innerText = `
@@ -89,7 +136,6 @@ let stonks = function() {
     Comunal: ${totals['all'].toFixed(2)}
     `;
 };
-
 // makeList(`Granulated Sugar
 // 20145033_EA
 // Qty: 1 @ $2.48 ea
