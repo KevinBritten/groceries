@@ -85,7 +85,6 @@ let makeList = function(str) {
     <td class="check"><input type="checkbox" class="david"></td>
     <td class="check"><input type="checkbox" class="eric"></td>
     <td class="check"><input type="checkbox" class="evan"></td>
-    <td class="check"><input type="checkbox" class="duncan"></td>
     <td class="check"><input type="checkbox" class="all"></td>
     `;
     });
@@ -101,7 +100,6 @@ let stonks = function() {
         david: 0,
         eric: 0,
         evan: 0,
-        duncan: 0,
         all: 0
     };
     let items = forum.children;
@@ -132,7 +130,7 @@ let stonks = function() {
     David: ${totals['david'].toFixed(2)}
     Eric: ${totals['eric'].toFixed(2)}
     Evan: ${totals['evan'].toFixed(2)}
-    Duncan: ${totals['duncan'].toFixed(2)}
+    
     Comunal: ${totals['all'].toFixed(2)}
     `;
 };
